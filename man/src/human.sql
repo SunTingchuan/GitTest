@@ -22,3 +22,4 @@ WITH (
 );
 ALTER TABLE public.human
   OWNER TO highgo;
+insert into human(name,sex) 
