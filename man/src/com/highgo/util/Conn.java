@@ -2,20 +2,23 @@ package com.highgo.util;
 
 import java.sql.*;
 import org.slf4j.*;
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class Conn {
-	
+
+	static ComboPooledDataSource dataSource = new ComboPooledDataSource("highgo");
+
 	public static Connection getConnection() {
-		
+
 		Logger logger = LoggerFactory.getLogger(Conn.class);
-		
+
 		Connection con = null;
 		try {
-			Class.forName("com.highgo.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:highgo://127.0.0.1:5866/highgo", "highgo", "highgo123");
+			con = dataSource.getConnection();
 			logger.info("Database driver loaded successfully,the database connection was successful");
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}
 		return con;
 	}

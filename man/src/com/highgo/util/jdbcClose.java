@@ -12,6 +12,7 @@ public class jdbcClose {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 	
@@ -23,6 +24,7 @@ public class jdbcClose {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 	
@@ -34,6 +36,7 @@ public class jdbcClose {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}
 	}
 }

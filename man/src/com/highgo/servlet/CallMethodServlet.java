@@ -2,14 +2,12 @@ package com.highgo.servlet;
 
 import java.io.*;
 import java.util.List;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.slf4j.*;
-
+import com.google.gson.Gson;
 import com.highgo.model.People;
 import com.highgo.service.UtilService;
-
 import net.sf.json.JSONArray;
 
 public class CallMethodServlet extends HttpServlet {
@@ -33,8 +31,12 @@ public class CallMethodServlet extends HttpServlet {
 		try {
 			if ("select".equals(hidden)) {
 				
-				service.select(response);
-				
+				List<People> list = service.getList();
+				JSONArray jsonstr = JSONArray.fromObject(list);
+				PrintWriter out = response.getWriter();
+				out.print(jsonstr);
+				System.out.println(jsonstr);
+	
 			} else if ("insert".equals(hidden)) {
 				
 				String name = request.getParameter("name");
@@ -70,7 +72,12 @@ public class CallMethodServlet extends HttpServlet {
 				String number = request.getParameter("idtxt");
 				logger.info("id="+number);
 				
-				service.query(number, response);
+				List<People> list = service.getList(number);
+				Gson gson = new Gson();
+				String jsonstr = gson.toJson(list);
+				PrintWriter out = response.getWriter();
+				out.print(jsonstr);
+				System.out.println(jsonstr);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

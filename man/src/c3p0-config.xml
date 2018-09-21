@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/2002/xmlspec/dtd/2.10/xmlspec.dtd">
+<c3p0-config>
+	<default-config>
+		<property name="highgo"></property>
+		<property name="driverClass">com.highgo.jdbc.Driver</property>
+		<property name="jdbcUrl">jdbc:highgo://127.0.0.1:5866/highgo</property>
+		<property name="user">highgo</property>
+		<property name="password">highgo123</property>
+	</default-config>
+</c3p0-config>

@@ -1,21 +1,17 @@
 package com.highgo.service;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
-import javax.servlet.http.*;
 import org.slf4j.*;
-import com.google.gson.Gson;
-import com.highgo.model.People;
 import com.highgo.util.*;
-import net.sf.json.JSONArray;
+import com.highgo.model.People;
 
 public class UtilService {
 	
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	// select data
-	public void select(HttpServletResponse response) {
+	public List<People> getList() {
 		logger.info("+++select start+++");
 		String str = "select * from human order by id";
 		ResultSet rs = null;
@@ -34,10 +30,7 @@ public class UtilService {
 				people.setSex(rs.getString("sex"));
 				list.add(people);
 			}
-			JSONArray jsonstr = JSONArray.fromObject(list);
-			PrintWriter out = response.getWriter();
-			out.print(jsonstr);
-			System.out.println(jsonstr);
+			return list;
 		}catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
@@ -47,10 +40,11 @@ public class UtilService {
 			jdbcClose.close(con);
 		}
 		logger.info("select end");
+		return null;
 	}
 
 	// condition query data
-	public void query(String number, HttpServletResponse response) {
+	public List<People> getList(String number) {
 		logger.info("+++query start+++");
 		String str = "select * from human where id=?";
 		ResultSet rs = null;
@@ -70,11 +64,7 @@ public class UtilService {
 				people.setSex(rs.getString("sex"));
 				list.add(people);
 			}
-			Gson gson = new Gson();
-			String jsonstr = gson.toJson(list);
-			PrintWriter out = response.getWriter();
-			out.print(jsonstr);
-			System.out.println(jsonstr);
+			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
@@ -84,6 +74,7 @@ public class UtilService {
 			jdbcClose.close(con);
 		}
 		logger.info("query end");
+		return null;
 	}
 
 	// insert data
