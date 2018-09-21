@@ -12,17 +12,18 @@ public class UtilService {
 
 	// select data
 	public List<People> getList() {
-		logger.info("+++select start+++");
+		logger.info("+++ select start +++");
+		
 		String str = "select * from human order by id";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection con = null;
+		List<People> list = new ArrayList<People>();
 		try {
-			con = Conn.getConnection();
+			con = JdbcUtils.getConnection();
 			pstmt = con.prepareStatement(str);
 
 			rs = pstmt.executeQuery();
-			List<People> list = new ArrayList<People>();
 			while (rs.next()) {
 				People people = new People();
 				people.setId(rs.getInt("id"));
@@ -30,33 +31,35 @@ public class UtilService {
 				people.setSex(rs.getString("sex"));
 				list.add(people);
 			}
-			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+			
 		} finally {
-			jdbcClose.close(rs);
-			jdbcClose.close(pstmt);
-			jdbcClose.close(con);
+			JdbcUtils.close(rs);
+			JdbcUtils.close(pstmt);
+			JdbcUtils.close(con);
 		}
 		logger.info("select end");
-		return null;
+		
+		return list;
 	}
 
 	// condition query data
 	public List<People> getList(String number) {
-		logger.info("+++query start+++");
-		String str = "select * from human where id=?";
+		logger.info("+++ query start +++" + "id =" + number);
+		
+		String str = "select * from human where id = ?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection con = null;
+		List<People> list = new ArrayList<People>();
 		try {
-			con = Conn.getConnection();
+			con = JdbcUtils.getConnection();
 			pstmt = con.prepareStatement(str);
 			pstmt.setInt(1, Integer.parseInt(number));
 
 			rs = pstmt.executeQuery();
-			List<People> list = new ArrayList<People>();
 			while (rs.next()) {
 				People people = new People();
 				people.setId(rs.getInt("id"));
@@ -64,75 +67,81 @@ public class UtilService {
 				people.setSex(rs.getString("sex"));
 				list.add(people);
 			}
-			return list;
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+			
 		} finally {
-			jdbcClose.close(rs);
-			jdbcClose.close(pstmt);
-			jdbcClose.close(con);
+			JdbcUtils.close(rs);
+			JdbcUtils.close(pstmt);
+			JdbcUtils.close(con);
 		}
 		logger.info("query end");
-		return null;
+		
+		return list;
 	}
 
 	// insert data
 	public void insert(String name, String sex) {
-		logger.info("+++insert start+++");
-		String str = "insert into human(name,sex) values(?,?)";
+		logger.info("+++ insert start +++" + "name =" + name + ",sex =" + sex);
+		
+		String str = "insert into human(name, sex) values(?,?)";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection con = null;
 		try {
-			con = Conn.getConnection();
+			con = JdbcUtils.getConnection();
 			pstmt = con.prepareStatement(str);
 			pstmt.setString(1, name);
 			pstmt.setString(2, sex);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+			
 		} finally {
-			jdbcClose.close(rs);
-			jdbcClose.close(pstmt);
-			jdbcClose.close(con);
+			JdbcUtils.close(rs);
+			JdbcUtils.close(pstmt);
+			JdbcUtils.close(con);
 		}
 		logger.info("insert end");
 	}
 
 	// delete data
 	public void delete(String number) {
-		logger.info("+++delete start+++");
-		String str = "delete from human where id=?";
+		logger.info("+++ delete start +++" + "id =" + number);
+		
+		String str = "delete from human where id = ?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection con = null;
 		try {
-			con = Conn.getConnection();
+			con = JdbcUtils.getConnection();
 			pstmt = con.prepareStatement(str);
 			pstmt.setInt(1, Integer.parseInt(number));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+			
 		} finally {
-			jdbcClose.close(rs);
-			jdbcClose.close(pstmt);
-			jdbcClose.close(con);
+			JdbcUtils.close(rs);
+			JdbcUtils.close(pstmt);
+			JdbcUtils.close(con);
 		}
 		logger.info("delete end");
 	}
 
 	// update data
 	public void update(String number, String name, String sex) {
-		logger.info("+++update start+++");
-		String str = "update human set name=?,sex=? where id=?";
+		logger.info("+++ update start +++" + "id =" + number + ", name =" + name + ", sex =" + sex);
+		
+		String str = "update human set name = ?, sex = ? where id = ?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
 		Connection con = null;
 		try {
-			con = Conn.getConnection();
+			con = JdbcUtils.getConnection();
 			pstmt = con.prepareStatement(str);
 			pstmt.setString(1, name);
 			pstmt.setString(2, sex);
@@ -140,11 +149,12 @@ public class UtilService {
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+			
 		} finally {
-			jdbcClose.close(rs);
-			jdbcClose.close(pstmt);
-			jdbcClose.close(con);
+			JdbcUtils.close(rs);
+			JdbcUtils.close(pstmt);
+			JdbcUtils.close(con);
 		}
 		logger.info("update end");
 	}

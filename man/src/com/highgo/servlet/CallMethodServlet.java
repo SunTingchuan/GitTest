@@ -24,11 +24,13 @@ public class CallMethodServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("get--start");
+
 		request.setCharacterEncoding("utf-8");// 设置请求字符集编码
-		response.setContentType("text/html;charset=utf-8");// 设置响应字符集编码
+		response.setContentType("text/html; charset = utf-8");// 设置响应字符集编码
 
 		String hiddenvalue = request.getParameter("callMethod");// 获取隐藏域的value值
-		logger.info("value=" + hiddenvalue);
+		logger.info("value =" + hiddenvalue);
+
 		String hidden = (hiddenvalue == null) ? "select" : hiddenvalue;
 		try {
 			if ("select".equals(hidden)) {
@@ -42,37 +44,29 @@ public class CallMethodServlet extends HttpServlet {
 			} else if ("insert".equals(hidden)) {
 
 				String name = request.getParameter("name");
-				logger.info("name=" + name);
-
 				String sex = request.getParameter("sex");
-				logger.info("sex=" + sex);
+				logger.info("name =" + name + ", sex =" + sex);
 
 				service.insert(name, sex);
 
 			} else if ("delete".equals(hidden)) {
-
 				String number = request.getParameter("number");
-				logger.info("id=" + number);
+				logger.info("id =" + number);
 
 				service.delete(number);
 
 			} else if ("update".equals(hidden)) {
 
 				String number = request.getParameter("number");
-				logger.info("id=" + number);
-
 				String name = request.getParameter("name");
-				logger.info("name=" + name);
-
 				String sex = request.getParameter("sex");
-				logger.info("sex=" + sex);
+				logger.info("id=" + number + ", name =" + name + ", sex =" + sex);
 
 				service.update(number, name, sex);
 
 			} else {
-
 				String number = request.getParameter("idtxt");
-				logger.info("id=" + number);
+				logger.info("id =" + number);
 
 				List<People> list = service.getList(number);
 				Gson gson = new Gson();
@@ -83,14 +77,17 @@ public class CallMethodServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			e.getMessage();
+			logger.info(e.getMessage());
+
 		}
 		logger.info("get end");
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		logger.info("post__start");
+
 		doGet(request, response);
+
 		logger.info("post end");
 	}
 
