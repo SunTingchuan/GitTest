@@ -7,7 +7,7 @@ import com.highgo.util.*;
 import com.highgo.model.People;
 
 public class UtilService {
-	
+
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	// select data
@@ -16,11 +16,11 @@ public class UtilService {
 		String str = "select * from human order by id";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con =  null;
+		Connection con = null;
 		try {
 			con = Conn.getConnection();
 			pstmt = con.prepareStatement(str);
-			
+
 			rs = pstmt.executeQuery();
 			List<People> list = new ArrayList<People>();
 			while (rs.next()) {
@@ -31,10 +31,10 @@ public class UtilService {
 				list.add(people);
 			}
 			return list;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
-		}finally {
+		} finally {
 			jdbcClose.close(rs);
 			jdbcClose.close(pstmt);
 			jdbcClose.close(con);
@@ -49,12 +49,12 @@ public class UtilService {
 		String str = "select * from human where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con =  null;
+		Connection con = null;
 		try {
 			con = Conn.getConnection();
 			pstmt = con.prepareStatement(str);
 			pstmt.setInt(1, Integer.parseInt(number));
-			
+
 			rs = pstmt.executeQuery();
 			List<People> list = new ArrayList<People>();
 			while (rs.next()) {
@@ -68,7 +68,7 @@ public class UtilService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
-		}finally {
+		} finally {
 			jdbcClose.close(rs);
 			jdbcClose.close(pstmt);
 			jdbcClose.close(con);
@@ -83,7 +83,7 @@ public class UtilService {
 		String str = "insert into human(name,sex) values(?,?)";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con =  null;
+		Connection con = null;
 		try {
 			con = Conn.getConnection();
 			pstmt = con.prepareStatement(str);
@@ -93,7 +93,7 @@ public class UtilService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
-		}finally {
+		} finally {
 			jdbcClose.close(rs);
 			jdbcClose.close(pstmt);
 			jdbcClose.close(con);
@@ -107,7 +107,7 @@ public class UtilService {
 		String str = "delete from human where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con =  null;
+		Connection con = null;
 		try {
 			con = Conn.getConnection();
 			pstmt = con.prepareStatement(str);
@@ -116,7 +116,7 @@ public class UtilService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
-		}finally {
+		} finally {
 			jdbcClose.close(rs);
 			jdbcClose.close(pstmt);
 			jdbcClose.close(con);
@@ -130,10 +130,10 @@ public class UtilService {
 		String str = "update human set name=?,sex=? where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con =  null;
+		Connection con = null;
 		try {
 			con = Conn.getConnection();
-		    pstmt = con.prepareStatement(str);
+			pstmt = con.prepareStatement(str);
 			pstmt.setString(1, name);
 			pstmt.setString(2, sex);
 			pstmt.setInt(3, Integer.parseInt(number));
@@ -141,7 +141,7 @@ public class UtilService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			e.getMessage();
-		}finally {
+		} finally {
 			jdbcClose.close(rs);
 			jdbcClose.close(pstmt);
 			jdbcClose.close(con);

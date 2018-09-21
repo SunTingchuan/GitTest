@@ -3,7 +3,7 @@ package com.highgo.util;
 import java.sql.*;
 
 public class jdbcClose {
-	
+
 	// Close the result set object
 	public static void close(ResultSet rs) {
 		try {
@@ -15,8 +15,8 @@ public class jdbcClose {
 			e.getMessage();
 		}
 	}
-	
-	// Close the preparedStatement object	
+
+	// Close the preparedStatement object
 	public static void close(PreparedStatement pstmt) {
 		try {
 			if (pstmt != null) {
@@ -27,7 +27,7 @@ public class jdbcClose {
 			e.getMessage();
 		}
 	}
-	
+
 	// Close the result set object
 	public static void close(Connection con) {
 		try {
