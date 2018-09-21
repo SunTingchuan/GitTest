@@ -13,7 +13,7 @@ public class Conn {
 		try {
 			Class.forName("com.highgo.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:highgo://127.0.0.1:5866/highgo", "highgo", "highgo123");
-			logger.info("数据库驱动加载成功，数据库连接成功");
+			logger.info("Database driver loaded successfully,the database connection was successful");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

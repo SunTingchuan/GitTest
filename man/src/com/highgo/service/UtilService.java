@@ -5,25 +5,25 @@ import java.sql.*;
 import java.util.*;
 import javax.servlet.http.*;
 import org.slf4j.*;
+import com.google.gson.Gson;
 import com.highgo.model.People;
-import com.highgo.util.Conn;
+import com.highgo.util.*;
 import net.sf.json.JSONArray;
-import com.highgo.util.DBClose;
 
 public class UtilService {
 	
-	Logger logger = LoggerFactory.getLogger(UtilService.class);
+	Logger logger = LoggerFactory.getLogger(getClass());
 
-	// 查询数据库数据
-	public void select(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("select start");
-		
-		DBClose close = new DBClose();
+	// select data
+	public void select(HttpServletResponse response) {
+		logger.info("+++select start+++");
+		String str = "select * from human order by id";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con = Conn.getConnection();
+		Connection con =  null;
 		try {
-			pstmt = con.prepareStatement("select * from human order by id");
+			con = Conn.getConnection();
+			pstmt = con.prepareStatement(str);
 			
 			rs = pstmt.executeQuery();
 			List<People> list = new ArrayList<People>();
@@ -38,29 +38,27 @@ public class UtilService {
 			PrintWriter out = response.getWriter();
 			out.print(jsonstr);
 			System.out.println(jsonstr);
-		} catch (Exception e) {
+		}catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}finally {
-			close.close(rs);
-			close.close(pstmt);
-			close.close(con);
+			jdbcClose.close(rs);
+			jdbcClose.close(pstmt);
+			jdbcClose.close(con);
 		}
 		logger.info("select end");
 	}
 
-	// 条件查询数据库数据
-	public void query(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("query start");
-		
-		String number = request.getParameter("idtxt");
-		logger.info(number);
-		
-		DBClose close = new DBClose();
+	// condition query data
+	public void query(String number, HttpServletResponse response) {
+		logger.info("+++query start+++");
+		String str = "select * from human where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con = Conn.getConnection();
+		Connection con =  null;
 		try {
-			pstmt = con.prepareStatement("select * from human where id=?");
+			con = Conn.getConnection();
+			pstmt = con.prepareStatement(str);
 			pstmt.setInt(1, Integer.parseInt(number));
 			
 			rs = pstmt.executeQuery();
@@ -72,100 +70,90 @@ public class UtilService {
 				people.setSex(rs.getString("sex"));
 				list.add(people);
 			}
-			JSONArray jsonstr = JSONArray.fromObject(list);
+			Gson gson = new Gson();
+			String jsonstr = gson.toJson(list);
 			PrintWriter out = response.getWriter();
 			out.print(jsonstr);
 			System.out.println(jsonstr);
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}finally {
-			close.close(rs);
-			close.close(pstmt);
-			close.close(con);
+			jdbcClose.close(rs);
+			jdbcClose.close(pstmt);
+			jdbcClose.close(con);
 		}
 		logger.info("query end");
 	}
 
-	// 新增数据
-	public void insert(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("insert start");
-		
-		String name = request.getParameter("name");
-		logger.info(name);
-		String sex = request.getParameter("sex");
-		logger.info(sex);
-		
-		DBClose close = new DBClose();
+	// insert data
+	public void insert(String name, String sex) {
+		logger.info("+++insert start+++");
+		String str = "insert into human(name,sex) values(?,?)";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con = Conn.getConnection();
+		Connection con =  null;
 		try {
-			pstmt = con.prepareStatement("insert into human(name,sex) values(?,?)");
+			con = Conn.getConnection();
+			pstmt = con.prepareStatement(str);
 			pstmt.setString(1, name);
 			pstmt.setString(2, sex);
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}finally {
-			close.close(rs);
-			close.close(pstmt);
-			close.close(con);
+			jdbcClose.close(rs);
+			jdbcClose.close(pstmt);
+			jdbcClose.close(con);
 		}
 		logger.info("insert end");
 	}
 
-	// 删除数据
-	public void delete(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("delete start");
-		
-		String number = request.getParameter("number");
-		logger.info(number);
-		
-		DBClose close = new DBClose();
+	// delete data
+	public void delete(String number) {
+		logger.info("+++delete start+++");
+		String str = "delete from human where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con = Conn.getConnection();
+		Connection con =  null;
 		try {
-			pstmt = con.prepareStatement("delete from human where id=?");
+			con = Conn.getConnection();
+			pstmt = con.prepareStatement(str);
 			pstmt.setInt(1, Integer.parseInt(number));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}finally {
-			close.close(rs);
-			close.close(pstmt);
-			close.close(con);
+			jdbcClose.close(rs);
+			jdbcClose.close(pstmt);
+			jdbcClose.close(con);
 		}
 		logger.info("delete end");
 	}
 
-	// 修改数据
-	public void update(HttpServletRequest request, HttpServletResponse response) {
-		logger.info("update start");
-		
-		String number = request.getParameter("number");
-		logger.info(number);
-		String name = request.getParameter("name");
-		logger.info(name);
-		String sex = request.getParameter("sex");
-		logger.info(sex);
-		
-		DBClose close = new DBClose();
+	// update data
+	public void update(String number, String name, String sex) {
+		logger.info("+++update start+++");
+		String str = "update human set name=?,sex=? where id=?";
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		Connection con = Conn.getConnection();
+		Connection con =  null;
 		try {
-		    pstmt = con.prepareStatement("update human set name=?,sex=? where id=?");
+			con = Conn.getConnection();
+		    pstmt = con.prepareStatement(str);
 			pstmt.setString(1, name);
 			pstmt.setString(2, sex);
 			pstmt.setInt(3, Integer.parseInt(number));
 			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			e.getMessage();
 		}finally {
-			close.close(rs);
-			close.close(pstmt);
-			close.close(con);
+			jdbcClose.close(rs);
+			jdbcClose.close(pstmt);
+			jdbcClose.close(con);
 		}
 		logger.info("update end");
 	}
